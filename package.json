@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/eldimious/couchbase-server-promises/issues"
   },
-  "homepage": "https://github.com/eldimious/couchbase-server-promises#readme"
+  "homepage": "https://github.com/eldimious/couchbase-server-promises#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "couchbase": "^2.3.4",
+    "debug": "^2.6.8"
+  }
 }
