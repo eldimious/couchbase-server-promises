@@ -9,5 +9,6 @@ class CouchbaseUsingPromises {
 }
 
 //const CouchbaseInstance = new CouchbaseUsingPromises(couchbase);
+//module.exports = require('./database');
 
 module.exports = CouchbaseUsingPromises;
