@@ -2,11 +2,11 @@
 
 const couchbase = require('couchbase');
 const Promise = require('bluebird');
-const debug = require('debug')('socius-tools-database');
+const debug = require('debug')('couchbase-server-database');
 
 module.exports = class CouchbaseDatabase {
   constructor(config) {
-    debug('constructing instance of Database class in socius-tools');
+    debug('constructing instance of Database class in');
     const bucketArray = config.bucketArray;
     const cluster = new couchbase.Cluster(config.cluster);
     // bucketArray = [
@@ -31,7 +31,7 @@ module.exports = class CouchbaseDatabase {
       if (!this.bucketArray[i]) {
         this.bucketArray[i] = cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, function(err) {
           if (err) {
-            throw new Error(`${bucketArray[i]} bucket perform cluster.openBucket error in socius-tools`);
+            throw new Error(`${bucketArray[i]} bucket perform cluster.openBucket error in couchbase-server-database`);
           }
           debug(`${bucketArray[i]} bucket connection enstablished`);
           this.bucketArray[i].operationTimeout = config.operationCustomerTimeout || 15 * 1000;
@@ -53,7 +53,7 @@ module.exports = class CouchbaseDatabase {
     // if (!this.customerBucket) {
     //   this.customerBucket = cluster.openBucket(customerBucketID, customerBucketPW, function(err) {
     //     if (err) {
-    //       throw new Error('customer bucket perform cluster.openBucket error in socius-tools');
+    //       throw new Error('customer bucket perform cluster.openBucket error in ');
     //     }
     //   });
     //   debug('customers bucket connection enstablished');
@@ -63,7 +63,7 @@ module.exports = class CouchbaseDatabase {
     // if (!this.dataBucket) {
     //   this.dataBucket = cluster.openBucket(dataBucketID, dataBucketPW, function(err) {
     //     if (err) {
-    //       throw new Error('data bucket perform cluster.openBucket error in socius-tools');
+    //       throw new Error('data bucket perform cluster.openBucket error in ');
     //     }
     //   });
     //   debug('data bucket connection enstablished');
