@@ -1,0 +1,24 @@
+{
+  "name": "couchbase-server-promises",
+  "version": "1.0.0",
+  "description": "We make couchbase server working with promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eldimious/couchbase-server-promises.git"
+  },
+  "keywords": [
+    "couchbase",
+    "couchbase-server",
+    "promises"
+  ],
+  "author": "Dimos Botsari <botsaris.d@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eldimious/couchbase-server-promises/issues"
+  },
+  "homepage": "https://github.com/eldimious/couchbase-server-promises#readme"
+}
