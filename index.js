@@ -1,10 +1,13 @@
 'use strict';
+
 const CouchbaseDatabase = require('./database');
 
-class CouchbasePromises {
+class CouchbaseUsingPromises {
   constructor(config) {
     this.db = new CouchbaseDatabase(config);
   }
 }
 
-module.exports = CouchbasePromises;
+//const CouchbaseInstance = new CouchbaseUsingPromises(couchbase);
+
+module.exports = CouchbaseUsingPromises;
