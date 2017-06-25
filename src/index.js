@@ -1,15 +1,17 @@
 'use strict';
 
-const couchbase = require('couchbase');
+const Couchbase = require('couchbase');
 const Promise = require('bluebird');
 const debug = require('debug')('couchbase-server-promises');
+
+const ViewQuery = Couchbase.ViewQuery;
 
 module.exports = class CouchbasePromises {
   constructor(config) {
     debug('start constructing instance of CouchbasePromises class');
 
     if (typeof config === 'object' && config.cluster) {
-      this._cluster = new couchbase.Cluster(config.cluster);
+      this._cluster = new Couchbase.Cluster(config.cluster);
     } else {
       throw new Error('Couchbase connection string not supplied to Database');
     }
@@ -50,38 +52,13 @@ module.exports = class CouchbasePromises {
       this._getMultiDoc[bucketName] = Promise.promisify(this._connections[bucketName].getMulti, {context: this._connections[bucketName]});
       this._makeQuery[bucketName] = Promise.promisify(this._connections[bucketName].query, {context: this._connections[bucketName]});
     }
-
+    this._ViewQuery = ViewQuery;
     debug('constructing instance of CouchbasePromises class ends');
   }
 
-  // get getDocFrom() {
-  //   return this._getDoc;
-  // }
-
-  // get upsertDocIn() {
-  //   return this._upsertDoc;
-  // }
-
-  // get insertDocIn() {
-  //   return this._insertDoc;
-  // }
-
-  // get replaceDocIn() {
-  //   return this._replaceDoc;
-  // }
-
-  // get removeDocFrom() {
-  //   return this._removeDoc;
-  // }
-
-  // get getMultiDocFrom() {
-  //   return this._getMultiDoc;
-  // }
-
-  // get makeQueryTo() {
-  //   return this._makeQuery;
-  // }
-
+  get ViewQuery() {
+    return this._ViewQuery;
+  };
 
   getDoc(bucket, docId) {
     if (!this._connections[bucket]) {
