@@ -17,7 +17,7 @@
     "couchbase-server",
     "promises"
   ],
-  "author": "Dimos Botsari <botsaris.d@gmail.com>",
+  "author": "Dimos Botsaris <botsaris.d@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/eldimious/couchbase-server-promises/issues"
