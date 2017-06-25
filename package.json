@@ -2,8 +2,9 @@
   "name": "couchbase-server-promises",
   "version": "1.0.0",
   "description": "We make couchbase server working with promises",
-  "main": "index.js",
+  "main": "lib/index.js"
   "scripts": {
+    "prepublish": "./node_modules/.bin/babel -d lib src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +26,8 @@
     "bluebird": "^3.5.0",
     "couchbase": "^2.3.4",
     "debug": "^2.6.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1"
   }
 }

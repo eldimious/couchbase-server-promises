@@ -30,26 +30,16 @@ module.exports = class CouchbasePromises {
     }
 
     for (let i = 0; i < bucketArray.length; i++) {
-      console.log("bucketArray[i]", bucketArray[i])
-
-      const bucketName = bucketArray[i].password;
-      console.log("bucketName", bucketName)
-      
+      const bucketName = bucketArray[i].password;      
       if (!bucketName) {
         throw new Error('You should add a bucket name in buckets in config.');
       }
-
-      console.log("bucketName", bucketName)
-
       if (!this._connections.bucketArray || !this._connections.bucketArray[i]) {
         this._connections[bucketName] = this._cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, function(err) {
           if (err) {
-            console.log("error")
             throw new Error(`${bucketName} bucket perform cluster.openBucket error in couchbase-server-database`);
           }
           debug(`${bucketName} bucket connection enstablished`);
-          console.log("")
-          this._connections[bucketName].operationTimeout = config.operationCustomerTimeout || 15 * 1000;
         });
       }
       this._getDoc[bucketName] = Promise.promisify(this._connections[bucketName].get, {context: this._connections[bucketName]});
@@ -95,49 +85,49 @@ module.exports = class CouchbasePromises {
 
   getDoc(bucket, docId) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._getDoc[bucket](docId);
   }
 
   upsertDoc(bucket, docId, newDoc) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._upsertDoc[bucket](docId, newDoc);
   }
 
   insertDoc(bucket, docId, newDoc) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._insertDoc[bucket](docId, newDoc);
   }
 
   replaceDoc(bucket, docId, newDoc) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._replaceDoc[bucket](docId, newDoc);
   }
 
   removeDoc(bucket, docId) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._removeDoc[bucket](docId);
   }
 
   getMultiDocs(bucket, docId) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._getMultiDoc[bucket](docId);
   }
 
   makeQuery(bucket, view) {
     if (!this._connections[bucket]) {
-      throw new Error(`no bucket connection for ${bucket}`);
+      return Promise.reject(`no bucket connection for ${bucket}`);
     }
     return this._makeQuery[bucket](view);
   }
