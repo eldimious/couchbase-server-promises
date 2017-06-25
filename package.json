@@ -1,6 +1,7 @@
 {
   "name": "couchbase-server-promises",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "author": "Dimos Botsaris <botsaris.d@gmail.com",
   "description": "We make couchbase server working with promises",
   "main": "lib/index.js",
   "scripts": {
