@@ -1,7 +1,7 @@
 {
   "name": "couchbase-server-promises",
-  "version": "1.0.5",
-  "author": "Dimos Botsaris <botsaris.d@gmail.com",
+  "version": "1.0.0",
+  "author": "Dimos Botsaris <botsaris.d@gmail.com>",
   "description": "An A+ Promises wrapper for the Couchbase SDK with added support for manage documents stored in your Couchbase database directly by their document identifiers",
   "main": "lib/index.js",
   "scripts": {
@@ -20,7 +20,6 @@
     "bluebird",
     "nosql"
   ],
-  "author": "Dimos Botsaris <botsaris.d@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/eldimious/couchbase-server-promises/issues"
