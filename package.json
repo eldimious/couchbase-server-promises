@@ -1,8 +1,8 @@
 {
   "name": "couchbase-server-promises",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "author": "Dimos Botsaris <botsaris.d@gmail.com",
-  "description": "We make couchbase server working with promises",
+  "description": "An A+ Promises wrapper for the Couchbase SDK with added support for manage documents stored in your Couchbase database directly by their document identifiers",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "./node_modules/.bin/babel -d lib src/",
@@ -15,7 +15,10 @@
   "keywords": [
     "couchbase",
     "couchbase-server",
-    "promises"
+    "promises",
+    "data",
+    "bluebird",
+    "nosql"
   ],
   "author": "Dimos Botsaris <botsaris.d@gmail.com>",
   "license": "ISC",
