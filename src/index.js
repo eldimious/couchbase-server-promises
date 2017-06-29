@@ -2,15 +2,13 @@
 
 const Couchbase = require('couchbase');
 const Promise = require('bluebird');
-const debug = require('debug')('couchbase-server-promises');
-
 const ViewQuery = Couchbase.ViewQuery;
 
-module.exports = class CouchbasePromises {
-  constructor(config) {
-    debug('start constructing instance of CouchbasePromises class');
 
-    if (typeof config === 'object' && config.cluster) {
+module.exports = class CouchbasePromises {
+  
+  constructor(config) {
+    if (config && config.cluster) {
       this._cluster = new Couchbase.Cluster(config.cluster);
     } else {
       throw new Error('Couchbase connection string not supplied to Database');
@@ -41,7 +39,6 @@ module.exports = class CouchbasePromises {
           if (err) {
             throw new Error(`${bucketName} bucket perform cluster.openBucket error in couchbase-server-database`);
           }
-          debug(`${bucketName} bucket connection enstablished`);
         });
       }
       this._getDoc[bucketName] = Promise.promisify(this._connections[bucketName].get, {context: this._connections[bucketName]});
@@ -53,7 +50,6 @@ module.exports = class CouchbasePromises {
       this._makeQuery[bucketName] = Promise.promisify(this._connections[bucketName].query, {context: this._connections[bucketName]});
     }
     this._ViewQuery = ViewQuery;
-    debug('constructing instance of CouchbasePromises class ends');
   }
 
   get ViewQuery() {
