@@ -24,7 +24,6 @@ module.exports = class CouchbasePromises {
     this._makeQuery = {};
 
     const bucketArray = config.buckets || [];  
-
     if (bucketArray.length <= 0) {
       throw new Error('You should add bucket in buckets in config.');
     }
