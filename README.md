@@ -2,7 +2,7 @@
 
 > A promise-based asynchronous library for Couchbase and node.js.
 
-The [Official Couchbase Node.js Client Library](https://www.npmjs.com/package/couchbase) provides only callback functions to handle the result of the asynchronous operations. This `couchbase-promise` library wraps those callback functions with [Bluebird](https://www.npmjs.com/package/bluebird) promises to provide a convenient, promise-based interface.
+The [Official Couchbase Node.js Client Library](https://www.npmjs.com/package/couchbase) provides only callback functions to handle the result of the asynchronous operations. This `couchbase-server-promises` library wraps those callback functions with [Bluebird](https://www.npmjs.com/package/bluebird) promises to provide a convenient, promise-based interface.
 
 ## Usage
 
