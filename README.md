@@ -100,3 +100,25 @@ couchbaseServer.makeQuery('stats', view)
   /*code*/
 });
 ```
+
+4) Update doc with name `statistics:test` from `stats` bucket with a new object called `newTestValue`:
+
+```JavaScript
+couchbaseServer.upsertDoc('stats', 'statistics:test', newTestValue)
+.then(doc => {
+  /*code*/
+})
+.catch(error => {
+  /*code*/
+});
+
+5) Remove doc with name `statistics:test` from `stats` bucket:
+
+```JavaScript
+couchbaseServer.removeDoc('stats', 'statistics:test')
+.then(doc => {
+  /*code*/
+})
+.catch(error => {
+  /*code*/
+});
