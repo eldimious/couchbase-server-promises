@@ -111,6 +111,7 @@ couchbaseServer.upsertDoc('stats', 'statistics:test', newTestValue)
 .catch(error => {
   /*code*/
 });
+```
 
 5) Remove doc with name `statistics:test` from `stats` bucket:
 
