@@ -34,7 +34,7 @@ module.exports = class CouchbasePromisesWrapper {
         throw new Error('You should add a bucket name in buckets in config.');
       }
       if (!this._connections.bucketArray || !this._connections.bucketArray[i]) {
-        this._connections[bucketName] = this._cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, function(err) {
+        this._connections[bucketName] = this._cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, err => {
           if (err) {
             throw new Error(`${bucketName} bucket perform cluster.openBucket error in couchbase-server-database`);
           }
