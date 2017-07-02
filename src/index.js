@@ -5,7 +5,7 @@ const Promise = require('bluebird');
 const ViewQuery = Couchbase.ViewQuery;
 
 
-module.exports = class CouchbasePromises {
+module.exports = class CouchbasePromisesWrapper {
   
   constructor(config) {
     if (config && config.cluster) {
@@ -37,6 +37,9 @@ module.exports = class CouchbasePromises {
         this._connections[bucketName] = this._cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, function(err) {
           if (err) {
             throw new Error(`${bucketName} bucket perform cluster.openBucket error in couchbase-server-database`);
+          }
+          if (bucketArray[i].operationTimeout) {
+            this._connections[bucketName].operationTimeout = bucketArray[i].operationTimeout;
           }
         });
       }
