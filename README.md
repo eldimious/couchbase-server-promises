@@ -12,13 +12,7 @@ First, install `couchbase-server-promises` as a dependency:
 npm install --save couchbase-server-promises
 ```
 
-Then, reference it in your code file:
-
-```javascript
-const CouchbaseServerPromises = require('couchbase-server-promises');
-```
-
-and init it using a config. The config should have a structure like this:
+In order to init it, you should use a config. The config should have a structure like this:
 
 ```javascript
 const config = {
@@ -36,13 +30,16 @@ const config = {
   ]
 };
 ```
-as bucket we add all couchbase's bucket(name+password), that we have in our cluster. Also You can specify multiple hosts(clusters) in the connection string(cluster's array in config) so that the client may be able to connect even if the cluster topology changed. To specify multiple hosts, separate them using a comma, for example: `couchbase://127.0.0.1:8091,127.0.0.1:8092`. Also, you can specify `operationTimeout` for each bucket. Then just init it:
+
+Then, reference it in your code file:
 
 ```javascript
-const couchbaseServer = new CouchbasePromisesWrapper(config);
+const couchbasePromisesWrapper = require('couchbase-server-promises')(config);
 ```
 
-Use the methods of the `couchbaseServer` class to manage documents stored in your Couchbase database directly by their document identifiers:
+as bucket we add all couchbase's bucket(name+password), that we have in our cluster. Also You can specify multiple hosts(clusters) in the connection string(cluster's array in config) so that the client may be able to connect even if the cluster topology changed. To specify multiple hosts, separate them using a comma, for example: `couchbase://127.0.0.1:8091,127.0.0.1:8092`. Also, you can specify `operationTimeout` for each bucket.
+
+Use the methods of the `couchbasePromisesWrapper` class to manage documents stored in your Couchbase database directly by their document identifiers:
 - `getDoc(bucket, docId)`
 - `upsertDoc(bucket, docId, newDoc)`
 - `insertDoc(bucket, docId, newDoc)`
@@ -61,7 +58,7 @@ where:
 1) Get doc with name `user:test` from `customers` bucket:
 
 ```JavaScript
-couchbaseServer.getDoc('customers', 'user:test')
+couchbasePromisesWrapper.getDoc('customers', 'user:test')
 .then(doc => {
   /*code*/
 })
@@ -73,7 +70,7 @@ couchbaseServer.getDoc('customers', 'user:test')
 2) Get doc with name `statistics:test` from `stats` bucket:
 
 ```JavaScript
-couchbaseServer.getDoc('stats', 'statistics:test')
+couchbasePromisesWrapper.getDoc('stats', 'statistics:test')
 .then(doc => {
   /*code*/
 })
@@ -85,7 +82,7 @@ couchbaseServer.getDoc('stats', 'statistics:test')
 3) Make query to `stats` bucket:
 
 ```JavaScript
-let view = couchbaseServer.ViewQuery
+let view = couchbasePromisesWrapper.ViewQuery
   .from('testView', 'test')
   .range(startkey, endkey)
   .order(order)
@@ -93,7 +90,7 @@ let view = couchbaseServer.ViewQuery
   .limit(24)
   .skip(10);
   
-couchbaseServer.makeQuery('stats', view)
+couchbasePromisesWrapper.makeQuery('stats', view)
 .then(doc => {
   /*code*/
 })
@@ -105,7 +102,7 @@ couchbaseServer.makeQuery('stats', view)
 4) Update doc with name `statistics:test` from `stats` bucket with a new object called `newTestValue`:
 
 ```JavaScript
-couchbaseServer.upsertDoc('stats', 'statistics:test', newTestValue)
+couchbasePromisesWrapper.upsertDoc('stats', 'statistics:test', newTestValue)
 .then(doc => {
   /*code*/
 })
@@ -117,7 +114,7 @@ couchbaseServer.upsertDoc('stats', 'statistics:test', newTestValue)
 5) Remove doc with name `statistics:test` from `stats` bucket:
 
 ```JavaScript
-couchbaseServer.removeDoc('stats', 'statistics:test')
+couchbasePromisesWrapper.removeDoc('stats', 'statistics:test')
 .then(doc => {
   /*code*/
 })
