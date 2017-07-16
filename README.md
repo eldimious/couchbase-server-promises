@@ -26,18 +26,20 @@ const config = {
     {
       bucket: 'stats',
       password: '123'
+    }, 
+    {
+      bucket: 'users'
     }
   ]
 };
 ```
+as `buckets` we add all couchbase's bucket(name&password(password is not required)), that we have in our cluster. Also you can specify multiple hosts(clusters) in the connection string(cluster's array in config). To specify multiple hosts, separate them using a comma, for example: `cluster: [couchbase://127.0.0.1:8091,couchbase://127.0.0.1:8092]`. Also, you can specify `operationTimeout` for each bucket(not required).
 
 Then, reference it in your code file:
 
 ```javascript
 const couchbasePromisesWrapper = require('couchbase-server-promises')(config);
 ```
-
-as bucket we add all couchbase's bucket(name+password), that we have in our cluster. Also You can specify multiple hosts(clusters) in the connection string(cluster's array in config) so that the client may be able to connect even if the cluster topology changed. To specify multiple hosts, separate them using a comma, for example: `couchbase://127.0.0.1:8091,127.0.0.1:8092`. Also, you can specify `operationTimeout` for each bucket.
 
 Use the methods of the `couchbasePromisesWrapper` class to manage documents stored in your Couchbase database directly by their document identifiers:
 - `getDoc(bucket, docId)`
