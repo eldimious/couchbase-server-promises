@@ -6,7 +6,6 @@ const ViewQuery = Couchbase.ViewQuery;
 
 
 module.exports = class CouchbasePromisesWrapper {
-  
   constructor(config) {
     if (config && config.cluster) {
       this._cluster = new Couchbase.Cluster(config.cluster);
@@ -22,18 +21,19 @@ module.exports = class CouchbasePromisesWrapper {
     this._removeDoc = {};
     this._getMultiDoc = {};
     this._makeQuery = {};
+    this._ViewQuery = ViewQuery;
 
     const bucketArray = config.buckets || [];  
     if (bucketArray.length <= 0) {
       throw new Error('You should add bucket in buckets in config.');
     }
-
+    //construct connections for all buckets and create private variables to handle callback functions using promises.
     for (let i = 0; i < bucketArray.length; i++) {
-      const bucketName = bucketArray[i].password;      
+      const bucketName = bucketArray[i].bucket;     
       if (!bucketName) {
         throw new Error('You should add a bucket name in buckets in config.');
       }
-      if (!this._connections.bucketArray || !this._connections.bucketArray[i]) {
+      if (!this._connections[bucketName]) {
         this._connections[bucketName] = this._cluster.openBucket(bucketArray[i].bucket, bucketArray[i].password, err => {
           if (err) {
             throw new Error(`${bucketName} bucket perform cluster.openBucket error in couchbase-server-database`);
@@ -51,7 +51,6 @@ module.exports = class CouchbasePromisesWrapper {
       this._getMultiDoc[bucketName] = Promise.promisify(this._connections[bucketName].getMulti, {context: this._connections[bucketName]});
       this._makeQuery[bucketName] = Promise.promisify(this._connections[bucketName].query, {context: this._connections[bucketName]});
     }
-    this._ViewQuery = ViewQuery;
   }
 
   get ViewQuery() {
