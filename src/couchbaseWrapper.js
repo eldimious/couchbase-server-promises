@@ -19,7 +19,7 @@ module.exports = class couchbaseWrapper {
     this._replaceDoc = {};
     this._removeDoc = {};
     this._getMultiDoc = {};
-    this._makeQuery = {};
+    this._query = {};
     this._ViewQuery = ViewQuery;
 
     const bucketArray = config.buckets || [];  
