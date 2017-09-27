@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const ViewQuery = Couchbase.ViewQuery;
 
 
-module.exports = class CouchbasePromisesWrapper {
+module.exports = class couchbaseWrapper {
   constructor(config) {
     if (config && config.cluster) {
       this._cluster = new Couchbase.Cluster(config.cluster);
@@ -48,7 +48,7 @@ module.exports = class CouchbasePromisesWrapper {
       this._replaceDoc[bucketName] = Promise.promisify(this._connections[bucketName].replace, {context: this._connections[bucketName]});
       this._removeDoc[bucketName] = Promise.promisify(this._connections[bucketName].remove, {context: this._connections[bucketName]});
       this._getMultiDoc[bucketName] = Promise.promisify(this._connections[bucketName].getMulti, {context: this._connections[bucketName]});
-      this._makeQuery[bucketName] = Promise.promisify(this._connections[bucketName].query, {context: this._connections[bucketName]});
+      this._query[bucketName] = Promise.promisify(this._connections[bucketName].query, {context: this._connections[bucketName]});
     }
   }
 
@@ -98,7 +98,7 @@ module.exports = class CouchbasePromisesWrapper {
     return this._getMultiDoc[bucket](docId);
   }
 
-  makeQuery(bucket, view) {
+  query(bucket, view) {
     if (!this._connections[bucket]) {
       return Promise.reject(`No bucket connection for ${bucket}`);
     }
