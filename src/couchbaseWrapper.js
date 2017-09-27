@@ -102,6 +102,6 @@ module.exports = class couchbaseWrapper {
     if (!this._connections[bucket]) {
       return Promise.reject(`No bucket connection for ${bucket}`);
     }
-    return this._makeQuery[bucket](view);
+    return this._query[bucket](view);
   }
 }
