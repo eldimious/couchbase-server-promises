@@ -1,8 +1,8 @@
 'use strict';
 
-const CouchbasePromisesWrapper = require('./couchbaseWrapper');
+const CouchbaseWrapper = require('./couchbaseWrapper');
 
 module.exports = function(config) {
-  const couchbaseServerWrapper = new couchbaseWrapper(config);
+  const couchbaseServerWrapper = new CouchbaseWrapper(config);
   return couchbaseServerWrapper;
 };
