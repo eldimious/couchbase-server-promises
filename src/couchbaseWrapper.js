@@ -6,12 +6,10 @@ const ViewQuery = Couchbase.ViewQuery;
 
 module.exports = class couchbaseWrapper {
   constructor(config) {
-    if (config && config.cluster) {
-      this._cluster = new Couchbase.Cluster(config.cluster);
-    } else {
+    if (!config || !config.cluster) {
       throw new Error('Couchbase connection string not supplied to Database. Take a look at github example to see the correct config.');
     }
-
+    this._cluster = new Couchbase.Cluster(config.cluster);
     this._connections = {};
     this._getDoc = {};
     this._upsertDoc = {};
