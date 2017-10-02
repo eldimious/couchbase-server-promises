@@ -102,4 +102,20 @@ module.exports = class couchbaseWrapper {
     }
     return this._query[bucket](view);
   }
+
+  getBucketManager(bucket) {
+    if (!this._connections[bucket]) {
+      return Promise.reject(`No bucket connection for ${bucket}`);
+    }
+    return this._connections[bucket].manager();
+  }
+
+  getConnectedBuckets() {
+    console.log('dasdasdaqeqw')
+    if (!this._cluster || !this._cluster.connectingBuckets || this._cluster.connectingBuckets.length <= 0) {
+      return Promise.reject('No cluster connection.');
+    }
+    const bucketsName = this._cluster.connectingBuckets.map(bucket => bucket._name);
+    return bucketsName;
+  }
 }
