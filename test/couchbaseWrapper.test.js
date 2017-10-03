@@ -134,7 +134,7 @@ describe('test functions to handle the result of the asynchronous operations:', 
   });
 
   describe('test replaceDoc functions ', function() {
-    it('should upsert a doc with new value', function (done) {
+    it('should replace a doc with new value', function (done) {
       couchbaseWrapper.replaceDoc('users', 'user:dimostestOnlyForTest', {
         type: 'user',
         name: 'dimostestOnlyForTest',
@@ -151,6 +151,23 @@ describe('test functions to handle the result of the asynchronous operations:', 
           expect(userDoc.value.created_at).to.eql('testDate');
           expect(userDoc.value.email).to.eql('testEmail');
           expect(userDoc.value.id).to.eql('testId');
+          return done();
+        });
+    });
+  });
+
+  describe('test getMultiDocs functions ', function() {
+    const ids = ['user:dimostest1', 'user:dimostest2']
+    it('should get multiple docs', function (done) {
+      couchbaseWrapper.getMultiDocs('users', ids)
+        .then((userDocRows) => {
+          const usersIds = [];
+          for (let key in userDocRows) {
+            usersIds.push(key);
+          }
+          expect(usersIds).to.have.lengthOf(2);
+          expect(usersIds.includes('user:dimostest1')).to.eql(true);
+          expect(usersIds.includes('user:dimostest2')).to.eql(true);
           return done();
         });
     });
