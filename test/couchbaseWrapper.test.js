@@ -38,4 +38,12 @@ describe('test connection:', function() {
         return done();
       });
   });
+
+  it('should return error as we try get doc from bucket without connection', function (done) {
+    couchbaseWrapper.getDoc('usersTestBucket', 'user:dimostestnew')
+      .catch((error) => {
+        expect(error).to.be.equal('No bucket connection for usersTestBucket');
+        return done();
+      });
+  });
 });
