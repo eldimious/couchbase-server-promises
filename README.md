@@ -49,6 +49,10 @@ Use the methods of the `couchbasePromisesWrapper` class to manage documents stor
 - `removeDoc(bucket, docId)`
 - `getMultiDocs(bucket, docId)`
 
+You can get `bucket.manager` from each bucket using: `getBucketManager(bucket)`.
+
+Also you can get all connected buckets in the cluster using: `getConnectedBuckets()`. It returns an array that includes all the buckets, that are connected.
+
 where:
 `bucket`: is the name of bucket we want to manage doc, 
 `docId`: is the doc's name we want to manage,
