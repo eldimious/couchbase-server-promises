@@ -14,6 +14,15 @@ const config = {
 const CouchbaseLib = require('../lib/couchbaseWrapper');
 const couchbaseWrapper = new CouchbaseLib(config);
 
+const newUserValue = {
+  type: 'user',
+  name: 'dimostestOnlyForTest',
+  created_at: '2017-09-24T09:56:19.998Z',
+  email: 'test.d@gmail.com',
+  id: '9d5f1dc0-a10e-11e7-9eb6-c1150b8fc18d',
+};
+
+
 describe('test connection:', function() {
   it('should connect to local DB', function (done) {
     const connectedBuckets = couchbaseWrapper.getConnectedBuckets();
@@ -53,6 +62,30 @@ describe('test functions to handle the result of the asynchronous operations:', 
     couchbaseWrapper.getDoc('usersTestBucket', 'user:dimostestnew')
       .catch((error) => {
         expect(error).to.be.equal('No bucket connection for usersTestBucket');
+        return done();
+      });
+  });
+
+  it('should insert new doc', function (done) {
+    couchbaseWrapper.insertDoc('users', 'user:dimostestOnlyForTest', newUserValue)
+      .then((userDoc) => {
+        expect(userDoc.cas).to.not.be.empty;
+        return done();
+      });
+  });
+
+  it('should return error in insert new doc because this doc exist', function (done) {
+    couchbaseWrapper.insertDoc('users', 'user:dimostestOnlyForTest', newUserValue)
+      .catch((error) => {
+        expect(error.code).to.be.equal(12);
+        return done();
+      });
+  });
+
+  it('should remove doc from DB', function (done) {
+    couchbaseWrapper.removeDoc('users', 'user:dimostestOnlyForTest')
+      .then((userDoc) => {
+        expect(userDoc.cas).to.not.be.empty;
         return done();
       });
   });
