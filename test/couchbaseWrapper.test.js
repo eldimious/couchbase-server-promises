@@ -133,6 +133,29 @@ describe('test functions to handle the result of the asynchronous operations:', 
     });
   });
 
+  describe('test replaceDoc functions ', function() {
+    it('should upsert a doc with new value', function (done) {
+      couchbaseWrapper.replaceDoc('users', 'user:dimostestOnlyForTest', {
+        type: 'user',
+        name: 'dimostestOnlyForTest',
+        created_at: 'testDate',
+        email: 'testEmail',
+        id: 'testId',
+      })
+        .then((userDoc) => {
+          expect(userDoc.cas).to.not.be.empty;
+          return couchbaseWrapper.getDoc('users', 'user:dimostestOnlyForTest');
+        })
+        .then((userDoc) => {
+          expect(userDoc.value).to.not.be.empty;
+          expect(userDoc.value.created_at).to.eql('testDate');
+          expect(userDoc.value.email).to.eql('testEmail');
+          expect(userDoc.value.id).to.eql('testId');
+          return done();
+        });
+    });
+  });
+
   describe('test removeDoc functions ', function() {
     it('should remove doc from DB', function (done) {
       couchbaseWrapper.removeDoc('users', 'user:dimostestOnlyForTest')
