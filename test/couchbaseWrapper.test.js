@@ -21,6 +21,16 @@ describe('test connection:', function() {
     return done();
   });
 
+  it('should be connected to invalid bucket', function (done) {
+    const connectedBuckets = couchbaseWrapper.getConnectedBuckets();
+    expect(connectedBuckets.includes('usersTest')).to.eql(false);
+    return done();
+  });
+
+});
+
+
+describe('test functions to handle the result of the asynchronous operations:', function() {
   it('should be able to get doc from local DB bucket', function (done) {
     couchbaseWrapper.getDoc('users', 'user:dimostest1')
       .then((userDoc) => {

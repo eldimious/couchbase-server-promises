@@ -111,7 +111,6 @@ module.exports = class couchbaseWrapper {
   }
 
   getConnectedBuckets() {
-    console.log('dasdasdaqeqw')
     if (!this._cluster || !this._cluster.connectingBuckets || this._cluster.connectingBuckets.length <= 0) {
       return Promise.reject('No cluster connection.');
     }
