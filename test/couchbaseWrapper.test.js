@@ -30,4 +30,12 @@ describe('test connection:', function() {
         return done();
       });
   });
+
+  it('should not be able to get doc from local DB bucket as the doc does not exist', function (done) {
+    couchbaseWrapper.getDoc('users', 'user:dimostestnew')
+      .catch((error) => {
+        expect(error.code).to.be.equal(13);
+        return done();
+      });
+  });
 });
