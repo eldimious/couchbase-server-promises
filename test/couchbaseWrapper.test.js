@@ -11,6 +11,15 @@ const config = {
       },
     ],
 };
+
+const wrongConfigStructure = {
+  buckets:
+    {
+      bucket: 'users',
+      password: 'users',
+    },
+};
+
 const CouchbaseLib = require('../lib/couchbaseWrapper');
 const couchbaseWrapper = new CouchbaseLib(config);
 
@@ -21,6 +30,18 @@ const newUserValue = {
   email: 'test.d@gmail.com',
   id: '9d5f1dc0-a10e-11e7-9eb6-c1150b8fc18d',
 };
+
+describe('test wrong config stucture:', function() {
+  it('should connect to local DB', function (done) {
+    try {
+      const couchbaseWrapperWithWrongConfing = new CouchbaseLib(wrongConfigStructure);
+    }
+    catch(error) {
+      expect(error.message).to.be.equal('Couchbase connection string not supplied to Database. Take a look at github example to see the correct config.')
+      return done();
+    }
+  });
+});
 
 
 describe('test connection:', function() {
@@ -35,7 +56,6 @@ describe('test connection:', function() {
     expect(connectedBuckets.includes('usersTest')).to.eql(false);
     return done();
   });
-
 });
 
 
