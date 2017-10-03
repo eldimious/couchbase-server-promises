@@ -11,13 +11,23 @@ const config = {
       },
     ],
 };
-const couchbasePromisesWrapper = require('../lib/couchbaseWrapper');
-const couchbaseServerWrapper = new couchbasePromisesWrapper(config);
+const CouchbaseLib = require('../lib/couchbaseWrapper');
+const couchbaseWrapper = new CouchbaseLib(config);
 
 describe('test connection:', function() {
   it('should connect to local DB', function (done) {
-    const connectedBuckets = couchbaseServerWrapper.getConnectedBuckets();
+    const connectedBuckets = couchbaseWrapper.getConnectedBuckets();
     expect(connectedBuckets.includes('users')).to.eql(true);
     return done();
+  });
+
+  it('should be able to get doc from local DB bucket', function (done) {
+    couchbaseWrapper.getDoc('users', 'user:dimostest1')
+      .then((userDoc) => {
+        expect(userDoc.value).to.not.be.empty;
+        expect(userDoc.value).to.be.an('object');
+        expect(userDoc.value.name).to.eql('dimostest1');
+        return done();
+      });
   });
 });
