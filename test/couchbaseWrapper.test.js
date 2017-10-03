@@ -103,10 +103,31 @@ describe('test functions to handle the result of the asynchronous operations:', 
         });
     });
 
-    it('should return error in insert new doc because this doc exist', function (done) {
+    it('should return error in insert new doc because this doc already exist', function (done) {
       couchbaseWrapper.insertDoc('users', 'user:dimostestOnlyForTest', newUserValue)
         .catch((error) => {
           expect(error.code).to.be.equal(12);
+          return done();
+        });
+    });
+  });
+
+  describe('test upsertDoc functions ', function() {
+    it('should upsert a doc with new value', function (done) {
+      couchbaseWrapper.upsertDoc('users', 'user:dimostestOnlyForTest', {
+        type: 'user',
+        name: 'dimostestOnlyForTest',
+        created_at: 'testDate',
+        email: 'test.d@gmail.com',
+        id: '9d5f1dc0-a10e-11e7-9eb6-c1150b8fc18d',
+      })
+        .then((userDoc) => {
+          expect(userDoc.cas).to.not.be.empty;
+          return couchbaseWrapper.getDoc('users', 'user:dimostestOnlyForTest');
+        })
+        .then((userDoc) => {
+          expect(userDoc.value).to.not.be.empty;
+          expect(userDoc.value.created_at).to.eql('testDate');
           return done();
         });
     });
