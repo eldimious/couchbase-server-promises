@@ -117,4 +117,11 @@ module.exports = class couchbaseWrapper {
     const bucketsName = this._cluster.connectingBuckets.map(bucket => bucket._name);
     return bucketsName;
   }
+
+  disconnectBucket(bucket) {
+    if (!this._connections[bucket]) {
+      return Promise.reject(`No bucket connection for ${bucket}`);
+    }
+    return this._connections[bucket].disconnect();
+  }
 }
