@@ -1,15 +1,18 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const Promise = require('bluebird');
+const CouchbaseLib = require('../lib/couchbaseWrapper');
 
 const config = {
-  cluster: 'couchbase://127.0.0.1:8091',
-    buckets: [
-      {
-        bucket: 'users',
-        password: 'users',
-      },
-    ],
+  cluster: ['couchbase://127.0.0.1:8091'],
+  buckets: [
+    {
+      bucket: 'users',
+      password: 'users',
+    },
+  ],
+  user: 'testuser',
+  password: 'testpass',
 };
 
 const wrongConfigStructure = {
@@ -20,7 +23,6 @@ const wrongConfigStructure = {
     },
 };
 
-const CouchbaseLib = require('../lib/couchbaseWrapper');
 const couchbaseWrapper = new CouchbaseLib(config);
 
 const newUserValue = {
