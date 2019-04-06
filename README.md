@@ -144,7 +144,7 @@ try {
 ```
 
 
-8) Make query to `stats` bucket using a `view`:
+9) Make query to `stats` bucket using a `view`:
 
 ```JavaScript
 const view = couchbasePromisesWrapper.ViewQuery
