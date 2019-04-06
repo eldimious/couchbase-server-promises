@@ -42,6 +42,9 @@ const couchbasePromisesWrapper = require('couchbase-server-promises')(config);
 ```
 
 Use the methods of the `couchbasePromisesWrapper` class to manage documents stored in your Couchbase database directly by their document identifiers:
+
+## Exported Methods:
+
 - `getDoc(bucket, docId)`
 - `upsertDoc(bucket, docId, newDoc)`
 - `insertDoc(bucket, docId, newDoc)`
@@ -49,16 +52,14 @@ Use the methods of the `couchbasePromisesWrapper` class to manage documents stor
 - `removeDoc(bucket, docId)`
 - `getMultiDocs(bucket, [ docIds ])`
 - `query(bucket, query)`
-
-You can get `bucket.manager` from each bucket using: `getBucketManager(bucket)`.
-
-Also you can get all connected buckets in the cluster using: `getConnectedBuckets()`. It returns an array that includes all the buckets, that are connected.
+- `getBucketManager(bucket)`: Returns **bucket.manager**
+- `getConnectedBuckets()`: Returns array of connected buckets
+- `disconnectBucket(bucket)`: Disconnects from bucket
 
 where:
 `bucket`: is the name of bucket we want to manage doc, 
 `docId`: is the doc's name we want to manage,
 `newDoc`: is the doc's struct that we want to store in `docId`
-
 
 ## Example
 
