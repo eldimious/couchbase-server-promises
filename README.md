@@ -20,19 +20,19 @@ const config = {
   buckets: [
     {
       bucket: 'customers',
-      password: '123',
-      operationTimeout: 1500
     },
     {
       bucket: 'stats',
-      password: '123'
     }, 
     {
       bucket: 'users'
     }
-  ]
+  ],
+  user: 'testUser',
+  password: 'testPassword',
 };
 ```
+
 as `buckets` we add all couchbase's bucket(name&password(password is not required)), that we have in our cluster. Also you can specify multiple hosts(clusters) in the connection string(cluster's array in config). To specify multiple hosts, separate them using a comma, for example: `cluster: [couchbase://127.0.0.1:8091,couchbase://127.0.0.1:8092]`. Also, you can specify `operationTimeout` for each bucket(not required).
 
 Then, reference it in your code file:
@@ -47,7 +47,8 @@ Use the methods of the `couchbasePromisesWrapper` class to manage documents stor
 - `insertDoc(bucket, docId, newDoc)`
 - `replaceDoc(bucket, docId, newDoc)`
 - `removeDoc(bucket, docId)`
-- `getMultiDocs(bucket, docId)`
+- `getMultiDocs(bucket, [ docIds ])`
+- `query(bucket, query)`
 
 You can get `bucket.manager` from each bucket using: `getBucketManager(bucket)`.
 
@@ -61,34 +62,91 @@ where:
 
 ## Example
 
-1) Get doc with name `user:test` from `customers` bucket:
+1) **Get doc** with name `user:test` from `customers` bucket:
 
 ```JavaScript
-couchbasePromisesWrapper.getDoc('customers', 'user:test')
-.then(doc => {
+try {
+  const doc = await couchbasePromisesWrapper.getDoc('customers', 'user:test');
   /*code*/
-})
-.catch(error => {
+} catch(error) {
   /*code*/
-});
+}
 ```
 
-2) Get doc with name `statistics:test` from `stats` bucket:
+2) **Get doc** with name `statistics:test` from `stats` bucket:
 
 ```JavaScript
-couchbasePromisesWrapper.getDoc('stats', 'statistics:test')
-.then(doc => {
+try {
+  const doc = await couchbasePromisesWrapper.getDoc('stats', 'statistics:test');
   /*code*/
-})
-.catch(error => {
+} catch(error) {
   /*code*/
-});
+}
 ```
 
-3) Make query to `stats` bucket:
+3) Update doc with name `statistics:test` from `stats` bucket with a new object called `newTestValue`:
 
 ```JavaScript
-let view = couchbasePromisesWrapper.ViewQuery
+try {
+  const doc = await couchbasePromisesWrapper.upsertDoc('stats', 'statistics:test', newTestValue)
+  /*code*/
+} catch(error) {
+  /*code*/
+};
+```
+4) Remove doc with name `statistics:test` from `stats` bucket:
+
+```JavaScript
+try {
+  const doc = await couchbasePromisesWrapper.removeDoc('stats', 'statistics:test')
+  /*code*/
+} catch(error) {
+  /*code*/
+};
+```
+
+5) Replace doc with name `statistics:test` from `stats` bucket with a new object called `newTestValue`:
+
+```JavaScript
+try {
+  const doc = await couchbasePromisesWrapper.replaceDoc('stats', 'statistics:test', newTestValue)
+  /*code*/
+} catch(error) {
+  /*code*/
+};
+```
+
+6) Add new doc with name `statistics:test` in `stats` bucket with value: `newTestValue`:
+
+```JavaScript
+try {
+  const doc = await couchbasePromisesWrapper.insertDoc('stats', 'statistics:test', newTestValue)
+  /*code*/
+} catch(error) {
+  /*code*/
+};
+```
+
+7) Get list of docs(multi) with name `statistics:test1`, `statistics:test2` and `statistics:test3`:
+
+```JavaScript
+try {
+  const docs = await couchbasePromisesWrapper.getMultiDocs('stats', [
+    'statistics:test1',
+    'statistics:test2',
+    'statistics:test3',
+  ])
+  /*code*/
+} catch(error) {
+  /*code*/
+};
+```
+
+
+8) Make query to `stats` bucket using a `view`:
+
+```JavaScript
+const view = couchbasePromisesWrapper.ViewQuery
   .from('testView', 'test')
   .range(startkey, endkey)
   .order(order)
@@ -96,7 +154,7 @@ let view = couchbasePromisesWrapper.ViewQuery
   .limit(24)
   .skip(10);
   
-couchbasePromisesWrapper.makeQuery('stats', view)
+couchbasePromisesWrapper.query('stats', view)
 .then(doc => {
   /*code*/
 })
@@ -105,10 +163,15 @@ couchbasePromisesWrapper.makeQuery('stats', view)
 });
 ```
 
-4) Update doc with name `statistics:test` from `stats` bucket with a new object called `newTestValue`:
+8) Make query to `stats` bucket using a `N1qlQuery`:
 
 ```JavaScript
-couchbasePromisesWrapper.upsertDoc('stats', 'statistics:test', newTestValue)
+const sqlQuery = couchbasePromisesWrapper.N1qlQuery.fromString(`
+  SELECT * FROM \`stats\`
+  WHERE type = "test";
+`);
+  
+couchbasePromisesWrapper.query('stats', sqlQuery)
 .then(doc => {
   /*code*/
 })
@@ -116,14 +179,3 @@ couchbasePromisesWrapper.upsertDoc('stats', 'statistics:test', newTestValue)
   /*code*/
 });
 ```
-
-5) Remove doc with name `statistics:test` from `stats` bucket:
-
-```JavaScript
-couchbasePromisesWrapper.removeDoc('stats', 'statistics:test')
-.then(doc => {
-  /*code*/
-})
-.catch(error => {
-  /*code*/
-});
