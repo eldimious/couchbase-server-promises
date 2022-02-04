@@ -180,3 +180,7 @@ couchbasePromisesWrapper.query('stats', sqlQuery)
   /*code*/
 });
 ```
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
